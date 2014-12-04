@@ -276,22 +276,35 @@ class SavingAccount extends Account implements FullFunctionalAccount {
  */
                           
 class CDAccount extends Account implements FullFunctionalAccount {
+    protected int cdMonCount;
 
-    CDAccount(String s, double firstDeposit, Date openDateIn, double interestRate) {
+    CDAccount(String s, double firstDeposit, Date openDateIn, double interestRate, int cdMonCountin) {
         accountName = s;
         accountBalance = firstDeposit;
         accountInterestRate = interestRate;
         openDate = openDateIn;
-        lastInterestDate = openDate;    
+        lastInterestDate = openDate;   
+        cdMonCount = cdMonCountin; 
 
         System.out.println( "[log] CDAccount <" + accountName + "> created! ...\n" +
                             "          balance : " + accountBalance + "\n" +
                             "          interest rate : " + accountInterestRate + "%\n" +
+                            "          CD Months : " + cdMonCount + "\n" +
                             "          when : " + openDate.toString());
     }
     
     
     public double deposit(double amount, Date depositDate) throws BankingException {
+
+        SimpleDateFormat sdfryyyy = new SimpleDateFormat("yyyy");
+        SimpleDateFormat sdfrMM = new SimpleDateFormat("MM");
+
+        int numberOfMonth = (Integer.valueOf(sdfryyyy.format(depositDate))  - Integer.valueOf(sdfryyyy.format(openDate))) * 12;
+        numberOfMonth += Integer.valueOf(sdfrMM.format(depositDate))  - Integer.valueOf(sdfrMM.format(openDate));
+
+        if (numberOfMonth<cdMonCount) {
+            throw new BankingException ("not yet , can't deposit:" +  accountName);            
+        }
         accountBalance += amount;   
 
         System.out.println ("[log] CDAccount <" + accountName + "> now depositing\n" +
@@ -301,14 +314,27 @@ class CDAccount extends Account implements FullFunctionalAccount {
     }
 
     public double withdraw(double amount, Date withdrawDate) throws BankingException {
-        if ((accountBalance  - amount) < 1000) {
+        int withdrawFee = 250;
+
+        SimpleDateFormat sdfryyyy = new SimpleDateFormat("yyyy");
+        SimpleDateFormat sdfrMM = new SimpleDateFormat("MM");
+
+        int numberOfMonth = (Integer.valueOf(sdfryyyy.format(withdrawDate))  - Integer.valueOf(sdfryyyy.format(openDate))) * 12;
+        numberOfMonth += Integer.valueOf(sdfrMM.format(withdrawDate))  - Integer.valueOf(sdfrMM.format(openDate));
+
+        if (numberOfMonth>=cdMonCount) {
+            withdrawFee = 0;
+        }
+        if ((accountBalance  - amount - withdrawFee) < 0) {
             throw new BankingException ("Underfraft from checking account name:" +
                                          accountName);
         } else {
             accountBalance -= amount;
+            accountBalance -= withdrawFee;
 
             System.out.println ("[log] CDAccount <" + accountName + "> now withdrawing\n" +
                                 "          amount : $" + amount + "\n" +
+                                "          fee : $" + withdrawFee + "\n" +
                                 "          when : " + withdrawDate.toString());
             return(accountBalance);     
         }                                           
@@ -319,16 +345,16 @@ class CDAccount extends Account implements FullFunctionalAccount {
             throw new BankingException ("Invalid date to compute interest for account name" +
                                         accountName);                               
         }
-        
-        int numberOfDays = (int) ((interestDate.getTime() 
-                                   - lastInterestDate.getTime())
-                                   / 86400000.0);
+        SimpleDateFormat sdfryyyy = new SimpleDateFormat("yyyy");
+        SimpleDateFormat sdfrMM = new SimpleDateFormat("MM");
+        int numberOfMonth = (Integer.valueOf(sdfryyyy.format(interestDate))  - Integer.valueOf(sdfryyyy.format(lastInterestDate))) * 12;
+        numberOfMonth += Integer.valueOf(sdfrMM.format(interestDate))  - Integer.valueOf(sdfrMM.format(lastInterestDate));
 
-        double interestEarned = (double) numberOfDays / 365.0 * accountInterestRate * accountBalance;
+        double interestEarned = (double) numberOfMonth / 12 * accountInterestRate * accountBalance;
 
         System.out.println( "[log] CDAccount <" + accountName + "> computing interest ...\n" +
-                            "          lasttime computing interest : " + lastInterestDate.toString() + "\n" +
-                            "          Number of days since last interest : " + numberOfDays + "\n" +
+                            "          lasttime computing interest : " + Integer.valueOf(sdfryyyy.format(lastInterestDate)) + "/" + Integer.valueOf(sdfrMM.format(lastInterestDate)) + "\n" +
+                            "          Number of Month since last interest : " + numberOfMonth + "\n" +
                             "          Interest earned : " + interestEarned + "\n" +
                             "          when : " + interestDate.toString());
 
