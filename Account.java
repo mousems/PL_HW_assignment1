@@ -13,7 +13,7 @@
 ******************************************************************/
 
 import java.util.*;
-
+import java.text.SimpleDateFormat;
 class BankingException extends Exception {
     BankingException () { super(); }
     BankingException (String s) { super(s); }
@@ -165,20 +165,33 @@ class CheckingAccount extends Account implements FullFunctionalAccount {
                           
 class SavingAccount extends Account implements FullFunctionalAccount {
 
+    protected String[] withdrawDateLog;
+
+
     SavingAccount(String s, double firstDeposit, Date openDateIn, double interestRate) {
         accountName = s;
         accountBalance = firstDeposit;
         accountInterestRate = interestRate;
         openDate = openDateIn;
         lastInterestDate = openDate;    
-
+        withdrawDateLog = new String[3];
         System.out.println( "[log] SavingAccount <" + accountName + "> created! ...\n" +
                             "          balance : " + accountBalance + "\n" +
                             "          interest rate : " + accountInterestRate + "%\n" +
                             "          when : " + openDate.toString());
     }
     
-    
+    // private static String convertStringToDate(Date indate, String dateString){
+    //     String dateString = null;
+    //     SimpleDateFormat sdfr = new SimpleDateFormat(dateString);
+    //     try{
+    //         dateString = sdfr.format(indate);
+    //     }catch (Exception ex ){
+    //         System.out.println(ex);
+    //     }
+    //     return dateString;
+    // }
+
     public double deposit(double amount, Date depositDate) throws BankingException {
         accountBalance += amount;   
 
@@ -189,14 +202,39 @@ class SavingAccount extends Account implements FullFunctionalAccount {
     }
 
     public double withdraw(double amount, Date withdrawDate) throws BankingException {
-        if ((accountBalance  - amount) < 1000) {
+        // checking if pass 3 withdraw Date Log are in same month.
+
+        int withdrawFee = 1;
+
+
+        SimpleDateFormat sdfr = new SimpleDateFormat("yyyyMM");
+
+        for (int i=0; i<3; i++) {
+            if (withdrawDateLog[i]==null) {
+                withdrawFee = 0;
+            }else{
+                if(!sdfr.format(withdrawDate).equals(withdrawDateLog[i])) {
+                    withdrawFee = 0;
+                }
+            }
+        }
+
+
+
+        if ((accountBalance  - amount - withdrawFee) < 0) {
             throw new BankingException ("Underfraft from checking account name:" +
                                          accountName);
         } else {
             accountBalance -= amount;
+            accountBalance -= withdrawFee;
+            
+            withdrawDateLog[2] = withdrawDateLog[1] ;
+            withdrawDateLog[1] = withdrawDateLog[0] ;
+            withdrawDateLog[0] = sdfr.format(withdrawDate) ;
 
             System.out.println ("[log] SavingAccount <" + accountName + "> now withdrawing\n" +
                                 "          amount : $" + amount + "\n" +
+                                "          fee : $" + withdrawFee + "\n" +
                                 "          when : " + withdrawDate.toString());
             return(accountBalance);     
         }                                           
