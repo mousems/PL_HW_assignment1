@@ -402,9 +402,8 @@ class LoanAccount extends Account implements FullFunctionalAccount {
     }
 
     public double withdraw(double amount, Date withdrawDate) throws BankingException {
-        if ((accountBalance  - amount) < 1000) {
-            throw new BankingException ("Underfraft from checking account name:" +
-                                         accountName);
+        if ((accountBalance) < 0) {
+            throw new BankingException ("Balance < 0 , you can't withdraw \n");
         } else {
             accountBalance -= amount;
 
@@ -420,16 +419,16 @@ class LoanAccount extends Account implements FullFunctionalAccount {
             throw new BankingException ("Invalid date to compute interest for account name" +
                                         accountName);                               
         }
-        
-        int numberOfDays = (int) ((interestDate.getTime() 
-                                   - lastInterestDate.getTime())
-                                   / 86400000.0);
+        SimpleDateFormat sdfryyyy = new SimpleDateFormat("yyyy");
+        SimpleDateFormat sdfrMM = new SimpleDateFormat("MM");
+        int numberOfMonth = (Integer.valueOf(sdfryyyy.format(interestDate))  - Integer.valueOf(sdfryyyy.format(lastInterestDate))) * 12;
+        numberOfMonth += Integer.valueOf(sdfrMM.format(interestDate))  - Integer.valueOf(sdfrMM.format(lastInterestDate));
 
-        double interestEarned = (double) numberOfDays / 365.0 * accountInterestRate * accountBalance;
+        double interestEarned = (double) numberOfMonth / 12 * accountInterestRate * accountBalance;
 
-        System.out.println( "[log] LoanAccount <" + accountName + "> computing interest ...\n" +
-                            "          lasttime computing interest : " + lastInterestDate.toString() + "\n" +
-                            "          Number of days since last interest : " + numberOfDays + "\n" +
+        System.out.println( "[log] CDAccount <" + accountName + "> computing interest ...\n" +
+                            "          lasttime computing interest : " + Integer.valueOf(sdfryyyy.format(lastInterestDate)) + "/" + Integer.valueOf(sdfrMM.format(lastInterestDate)) + "\n" +
+                            "          Number of Month since last interest : " + numberOfMonth + "\n" +
                             "          Interest earned : " + interestEarned + "\n" +
                             "          when : " + interestDate.toString());
 

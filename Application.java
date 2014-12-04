@@ -195,6 +195,8 @@ public class Application {
 
         */
 
+        /*
+        //test for CDACcount
         d = new Date(2015-1900,1-1,1);
         a = new CDAccount("John Smith", 1500.0, d, 0.12 , 5);
         
@@ -266,6 +268,71 @@ public class Application {
         } catch (Exception e) {
            stdExceptionPrinting(e, a.balance());    
         }
+        //test for CDACcount
+
+        */
+
+        d = new Date(2015-1900,1-1,1);
+        a = new LoanAccount("John Smith", -1500.0, d, 0.12);
+        
+        try {
+            d = new Date(2015-1900,3-1,22);
+            ret = a.deposit(100 ,d);
+            System.out.println ("Account <" + a.name() + "> now has $" + a.balance() + " balance\n");
+        } catch (Exception e) {
+           stdExceptionPrinting(e, a.balance());    
+        }
+        
+        try {
+            d = new Date(2015-1900,4-1,22);
+            ret = a.deposit(100 ,d);
+            System.out.println ("Account <" + a.name() + "> now has $" + a.balance() + " balance\n");
+        } catch (Exception e) {
+           stdExceptionPrinting(e, a.balance());    
+        }
+
+
+        try {
+            d = new Date(2015-1900,4-1,23);
+            ret = a.computeInterest(d);
+            System.out.println ("Account <" + a.name() + "> now has $" + a.balance() + " balance\n");
+        } catch (Exception e) {
+           stdExceptionPrinting(e, a.balance());    
+        }
+
+        try {
+            d = new Date(2015-1900,4-1,23);
+            ret = a.withdraw(100 ,d);
+            System.out.println ("Account <" + a.name() + "> now has $" + a.balance() + " balance\n");
+        } catch (Exception e) {
+           stdExceptionPrinting(e, a.balance());    
+        }
+
+        try {
+            d = new Date(2015-1900,5-1,22);
+            ret = a.deposit(10000 ,d);
+            System.out.println ("Account <" + a.name() + "> now has $" + a.balance() + " balance\n");
+        } catch (Exception e) {
+           stdExceptionPrinting(e, a.balance());    
+        }
+
+
+        try {
+            d = new Date(2015-1900,5-1,22);
+            ret = a.withdraw(100 ,d);
+            System.out.println ("Account <" + a.name() + "> now has $" + a.balance() + " balance\n");
+        } catch (Exception e) {
+           stdExceptionPrinting(e, a.balance());    
+        }
+
+        try {
+            d = new Date(2015-1900,5-1,23);
+            ret = a.computeInterest(d);
+            System.out.println ("Account <" + a.name() + "> now has $" + a.balance() + " balance\n");
+        } catch (Exception e) {
+           stdExceptionPrinting(e, a.balance());    
+        }
+
         /* put your own tests here ....... */
         /* if your implementaion is correct, you can do the following with polymorphic array accountList
             public Account[] accountList;
