@@ -98,12 +98,20 @@ class CheckingAccount extends Account implements FullFunctionalAccount {
         accountInterestRate = interestRate;
         openDate = openDateIn;
         lastInterestDate = openDate;	
+
+        System.out.println( "[log] CheckingAccount <" + accountName + "> created! ...\n" +
+                            "          balance : " + accountBalance + "\n" +
+                            "          interest rate : " + accountInterestRate + "%\n" +
+                            "          when : " + openDate.toString());
     }
     
     
     public double deposit(double amount, Date depositDate) throws BankingException {
         accountBalance += amount;   
-        System.out.println ("[log] Account <" + accountName + "> now deposit $" + amount + " when " + depositDate.toString() + "\n");
+
+        System.out.println ("[log] CheckingAccount <" + accountName + "> now depositing\n" +
+                            "          amount : $" + amount + "\n" +
+                            "          when : " + depositDate.toString());
         return(accountBalance);                                        
     }
 
@@ -113,7 +121,10 @@ class CheckingAccount extends Account implements FullFunctionalAccount {
                                          accountName);
         } else {
             accountBalance -= amount;
-            System.out.println ("[log] Account <" + accountName + "> now withdraw $" + amount + " when " + withdrawDate.toString() + "\n");	
+
+            System.out.println ("[log] CheckingAccount <" + accountName + "> now withdrawing\n" +
+                                "          amount : $" + amount + "\n" +
+                                "          when : " + withdrawDate.toString());
             return(accountBalance); 	
         }                                        	
     }
@@ -127,10 +138,15 @@ class CheckingAccount extends Account implements FullFunctionalAccount {
         int numberOfDays = (int) ((interestDate.getTime() 
                                    - lastInterestDate.getTime())
                                    / 86400000.0);
-        System.out.println("Number of days since last interest is " + numberOfDays);
-        double interestEarned = (double) numberOfDays / 365.0 *
-                                      accountInterestRate * accountBalance;
-        System.out.println("Interest earned is " + interestEarned); 
+
+        double interestEarned = (double) numberOfDays / 365.0 * accountInterestRate * accountBalance;
+
+        System.out.println( "[log] CheckingAccount <" + accountName + "> computing interest ...\n" +
+                            "          lasttime computing interest : " + lastInterestDate.toString() + "\n" +
+                            "          Number of days since last interest : " + numberOfDays + "\n" +
+                            "          Interest earned : " + interestEarned + "\n" +
+                            "          when : " + interestDate.toString());
+
         lastInterestDate = interestDate;
         accountBalance += interestEarned;
         return(accountBalance);                            

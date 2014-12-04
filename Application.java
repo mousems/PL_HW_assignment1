@@ -44,6 +44,32 @@ public static void main( String args []) {
        stdExceptionPrinting(e, a.balance());    
     }
 
+    try {
+        d = new Date(2015-1900,1,11);
+        ret = a.computeInterest(d);
+        System.out.println ("Account <" + a.name() + "> now has $" + a.balance() + " balance\n");
+    } catch (Exception e) {
+       stdExceptionPrinting(e, a.balance());    
+    }
+
+
+    try {
+        d = new Date(2015-1900,1,20);
+        ret = a.computeInterest(d);
+        System.out.println ("Account <" + a.name() + "> now has $" + a.balance() + " balance\n");
+    } catch (Exception e) {
+       stdExceptionPrinting(e, a.balance());    
+    }
+
+    try {
+        d = new Date(2015-1900,1,22);
+        ret = a.computeInterest(d);
+        System.out.println ("Account <" + a.name() + "> now has $" + a.balance() + " balance\n");
+    } catch (Exception e) {
+       stdExceptionPrinting(e, a.balance());    
+    }
+
+
     a = new CheckingAccount("John Smith", 1500.0, d, 0.12);
     
     try {
