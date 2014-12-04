@@ -23,20 +23,32 @@ public static void main( String args []) {
     Date d;
     double ret;
     
-    a = new CheckingAccount("John Smith", 1500.0);
+    d = new Date(2015-1900,1,1);
+    a = new CheckingAccount("John Smith", 1500.0, d);
+    
     
     try {
-        ret = a.withdraw(100.00);
-        System.out.println ("Account <" + a.name() + "> now has $" + ret + " balance\n");
+        d = new Date(2015-1900,1,2);
+        a.withdraw(100.00, d);
+        System.out.println ("Account <" + a.name() + "> now has $" + a.balance() + " balance\n");
     } catch (Exception e) {
        stdExceptionPrinting(e, a.balance());    
     }
+
     
+    try {
+        d = new Date(2015-1900,1,3);
+        ret = a.deposit(200.00, d);
+        System.out.println ("Account <" + a.name() + "> now has $" + a.balance() + " balance\n");
+    } catch (Exception e) {
+       stdExceptionPrinting(e, a.balance());    
+    }
+
     a = new CheckingAccount("John Smith", 1500.0);
     
     try {
         ret = a.withdraw(600.00);
-        System.out.println ("Account <" + a.name() + "> now has $" + ret + " balance\n");
+        System.out.println ("Account <" + a.name() + "> now has $" + a.balance() + " balance\n");
     } catch (Exception e) {
        stdExceptionPrinting(e, a.balance());    
     }

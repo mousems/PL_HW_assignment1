@@ -58,11 +58,14 @@ public abstract class Account {
     public double balance() {
         return(accountBalance);
     }
+
+    abstract double deposit(double amount, Date depositDate) throws BankingException;
     
-    public double deposit(double amount) throws BankingException{
-        accountBalance += amount;
-        return(accountBalance);
-    } 
+    public double deposit(double amount) throws BankingException {
+        Date depositDate = new Date();
+        return(deposit(amount, depositDate));
+    }
+    
     
     abstract double withdraw(double amount, Date withdrawDate) throws BankingException;
     
@@ -105,13 +108,19 @@ class CheckingAccount extends Account implements FullFunctionalAccount {
         lastInterestDate = openDate;	
     }	
     
+    public double deposit(double amount, Date depositDate) throws BankingException {
+        accountBalance += amount;   
+        System.out.println ("[log] Account <" + accountName + "> now deposit $" + amount + " when " + depositDate.toString() + "\n");
+        return(accountBalance);                                        
+    }
+
     public double withdraw(double amount, Date withdrawDate) throws BankingException {
-    // minimum balance is 1000, raise exception if violated
         if ((accountBalance  - amount) < 1000) {
             throw new BankingException ("Underfraft from checking account name:" +
                                          accountName);
         } else {
-            accountBalance -= amount;	
+            accountBalance -= amount;
+            System.out.println ("[log] Account <" + accountName + "> now withdraw $" + amount + " when " + withdrawDate.toString() + "\n");	
             return(accountBalance); 	
         }                                        	
     }
