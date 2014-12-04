@@ -116,6 +116,14 @@ public class Application {
 
 
         try {
+            d = new Date(2015-1900,1-1,22);
+            ret = a.computeInterest(d);
+            System.out.println ("Account <" + a.name() + "> now has $" + a.balance() + " balance\n");
+        } catch (Exception e) {
+           stdExceptionPrinting(e, a.balance());    
+        }
+
+        try {
             d = new Date(2015-1900,1-1,5);
             a.withdraw(100.00, d);
             System.out.println ("Account <" + a.name() + "> now has $" + a.balance() + " balance\n");
@@ -123,6 +131,13 @@ public class Application {
            stdExceptionPrinting(e, a.balance());    
         }
 
+        try {
+            d = new Date(2015-1900,1-1,22);
+            ret = a.computeInterest(d);
+            System.out.println ("Account <" + a.name() + "> now has $" + a.balance() + " balance\n");
+        } catch (Exception e) {
+           stdExceptionPrinting(e, a.balance());    
+        }
 
         try {
             d = new Date(2015-1900,2-1,5);
@@ -154,6 +169,23 @@ public class Application {
         try {
             d = new Date(2015-1900,2-1,10);
             a.withdraw(100.00, d);
+            System.out.println ("Account <" + a.name() + "> now has $" + a.balance() + " balance\n");
+        } catch (Exception e) {
+           stdExceptionPrinting(e, a.balance());    
+        }
+
+        try {
+            d = new Date(2015-1900,2-1,22);
+            ret = a.computeInterest(d);
+            System.out.println ("Account <" + a.name() + "> now has $" + a.balance() + " balance\n");
+        } catch (Exception e) {
+           stdExceptionPrinting(e, a.balance());    
+        }
+
+
+        try {
+            d = new Date(2015-1900,5-1,22);
+            ret = a.computeInterest(d);
             System.out.println ("Account <" + a.name() + "> now has $" + a.balance() + " balance\n");
         } catch (Exception e) {
            stdExceptionPrinting(e, a.balance());    

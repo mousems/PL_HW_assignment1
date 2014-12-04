@@ -245,16 +245,16 @@ class SavingAccount extends Account implements FullFunctionalAccount {
             throw new BankingException ("Invalid date to compute interest for account name" +
                                         accountName);                               
         }
-        
-        int numberOfDays = (int) ((interestDate.getTime() 
-                                   - lastInterestDate.getTime())
-                                   / 86400000.0);
+        SimpleDateFormat sdfryyyy = new SimpleDateFormat("yyyy");
+        SimpleDateFormat sdfrMM = new SimpleDateFormat("MM");
+        int numberOfMonth = (Integer.valueOf(sdfryyyy.format(interestDate))  - Integer.valueOf(sdfryyyy.format(lastInterestDate))) * 12;
+        numberOfMonth += Integer.valueOf(sdfrMM.format(interestDate))  - Integer.valueOf(sdfrMM.format(lastInterestDate));
 
-        double interestEarned = (double) numberOfDays / 365.0 * accountInterestRate * accountBalance;
+        double interestEarned = (double) numberOfMonth / 12 * accountInterestRate * accountBalance;
 
         System.out.println( "[log] SavingAccount <" + accountName + "> computing interest ...\n" +
-                            "          lasttime computing interest : " + lastInterestDate.toString() + "\n" +
-                            "          Number of days since last interest : " + numberOfDays + "\n" +
+                            "          lasttime computing interest : " + Integer.valueOf(sdfryyyy.format(lastInterestDate)) + "/" + Integer.valueOf(sdfrMM.format(lastInterestDate)) + "\n" +
+                            "          Number of Month since last interest : " + numberOfMonth + "\n" +
                             "          Interest earned : " + interestEarned + "\n" +
                             "          when : " + interestDate.toString());
 
