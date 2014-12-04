@@ -69,11 +69,12 @@ public static void main( String args []) {
        stdExceptionPrinting(e, a.balance());    
     }
 
-
+    d = new Date(2015-1900,1,23);
     a = new CheckingAccount("John Smith", 1500.0, d, 0.12);
     
     try {
-        ret = a.withdraw(600.00);
+        d = new Date(2015-1900,1,24);
+        ret = a.withdraw(600.00, d);
         System.out.println ("Account <" + a.name() + "> now has $" + a.balance() + " balance\n");
     } catch (Exception e) {
        stdExceptionPrinting(e, a.balance());    
