@@ -92,21 +92,14 @@ public abstract class Account {
                           
 class CheckingAccount extends Account implements FullFunctionalAccount {
 
-    CheckingAccount(String s, double firstDeposit) {
+    CheckingAccount(String s, double firstDeposit, Date openDateIn, double interestRate) {
         accountName = s;
         accountBalance = firstDeposit;
-        accountInterestRate = 0.12;
-        openDate = new Date();
+        accountInterestRate = interestRate;
+        openDate = openDateIn;
         lastInterestDate = openDate;	
     }
     
-    CheckingAccount(String s, double firstDeposit, Date firstDate) {
-        accountName = s;
-        accountBalance = firstDeposit;
-        accountInterestRate = 0.12;
-        openDate = firstDate;
-        lastInterestDate = openDate;	
-    }	
     
     public double deposit(double amount, Date depositDate) throws BankingException {
         accountBalance += amount;   

@@ -24,7 +24,7 @@ public static void main( String args []) {
     double ret;
     
     d = new Date(2015-1900,1,1);
-    a = new CheckingAccount("John Smith", 1500.0, d);
+    a = new CheckingAccount("John Smith", 1500.0, d, 0.12);
     
     
     try {
@@ -44,7 +44,7 @@ public static void main( String args []) {
        stdExceptionPrinting(e, a.balance());    
     }
 
-    a = new CheckingAccount("John Smith", 1500.0);
+    a = new CheckingAccount("John Smith", 1500.0, d, 0.12);
     
     try {
         ret = a.withdraw(600.00);
