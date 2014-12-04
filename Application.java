@@ -271,7 +271,8 @@ public class Application {
         //test for CDACcount
 
         */
-
+        /*
+        //test for LoanAccount
         d = new Date(2015-1900,1-1,1);
         a = new LoanAccount("John Smith", -1500.0, d, 0.12);
         
@@ -332,25 +333,60 @@ public class Application {
         } catch (Exception e) {
            stdExceptionPrinting(e, a.balance());    
         }
-
-        /* put your own tests here ....... */
-        /* if your implementaion is correct, you can do the following with polymorphic array accountList
-            public Account[] accountList;
-            
-            accountList = new Account[4];
-            
-            // buid 4 different accounts in the same array
-            accountList[0] = new CheckingAccount("John Smith", 1500.0);
-            accountList[1] = new SavingAccount("William Hurt", 1200.0);
-            accountList[2] = new CDAccount("Woody Allison", 1000.0);
-            accountList[3] = new LoanAccount("Judi Foster", -1500.0);
-            
-            // compute interest for all accounts
-            for (int count = 0; count < accountList.length; count++) {
-                double newBalance = accountList[count].computeInterest();
-                System.out.println ("Account <" + a.name() + "> now has $" + newBalance + " balance\n");
-            }
         */
+
+
+
+        Account[] accountList;
+        
+        accountList = new Account[4];
+        
+        d = new Date(2015-1900 , 1-1 , 1);
+
+        // buid 4 different accounts in the same array
+        accountList[0] = new CheckingAccount("John Smith", 1500.0 , d ,0.12);
+        accountList[1] = new SavingAccount("William Hurt", 1200.0 , d ,0.12);
+        accountList[2] = new CDAccount("Woody Allison", 1000.0 , d , 0.12 , 10);
+        accountList[3] = new LoanAccount("Judi Foster", -1500.0 , d , 0.12);
+        
+        // compute interest for all accounts
+        for (int mon = 2; mon<13 ; mon++) {
+
+            System.out.println("===============" + mon + "=================\n");
+
+            for (int count = 0; count < accountList.length; count++) {
+
+                try {
+                    d = new Date(2015-1900 , mon-1 , 1);
+                    double newBalance = accountList[count].withdraw(mon * 10 , d);
+                    System.out.println ("Account <" + accountList[count].name() + "> now has $" + newBalance + " balance\n");
+
+                } catch (Exception e) {
+                   stdExceptionPrinting(e, accountList[count].balance());    
+                }
+
+                try {
+                    d = new Date(2015-1900 , mon-1 , 1);
+                    double newBalance = accountList[count].deposit(mon * 30 , d);
+                    System.out.println ("Account <" + accountList[count].name() + "> now has $" + newBalance + " balance\n");
+
+                } catch (Exception e) {
+                   stdExceptionPrinting(e, accountList[count].balance());    
+                }
+
+                try {
+                    d = new Date(2015-1900 , mon-1 , 5);
+                    double newBalance = accountList[count].computeInterest(d);
+                    System.out.println ("Account <" + accountList[count].name() + "> now has $" + newBalance + " balance\n");
+
+                } catch (Exception e) {
+                   stdExceptionPrinting(e, accountList[count].balance());    
+                }
+                
+            }
+        }
+        
+        
     }
 
     static void stdExceptionPrinting(Exception e, double balance) {
